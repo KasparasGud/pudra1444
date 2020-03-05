@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PUDRA 1444</title>
+    <meta
+      name="description"
+      content="An experiemntal 3D layout technique for HTML elements."
+    />
+    <meta
+      name="keywords"
+      content="3d, layout, html, css, bending, javascript, demo"
+    />
+    <meta name="author" content="Codrops" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" href="https://use.typekit.net/yxd7izj.css" />
+    <link rel="stylesheet" type="text/css" href="css/base.css" />
+    <link rel="stylesheet" type="text/css" href="css/split.css" />
+    <script>
+      document.documentElement.className = "js";
+      var supportsCssVars = function() {
+        var e,
+          t = document.createElement("style");
+        return (
+          (t.innerHTML = "root: { --tmp-var: bold; }"),
+          document.head.appendChild(t),
+          (e = !!(
+            window.CSS &&
+            window.CSS.supports &&
+            window.CSS.supports("font-weight", "var(--tmp-var)")
+          )),
+          t.parentNode.removeChild(t),
+          e
+        );
+      };
+      supportsCssVars() ||
+        alert(
+          "Please view this demo in a modern browser that supports CSS Variables."
+        );
+    </script>
+  </head>
+  <div class="content_floating_image">
+    <img class="content__img" src="img/1.jpg" alt="Some image" />
+    <img class="content__img" src="img/2.jpg" alt="Some image" />
+    <img class="content__img" src="img/3.jpg" alt="Some image" />
+    <img class="content__img" src="img/4.jpg" alt="Some image" />
+    <img class="content__img" src="img/5.jpg" alt="Some image" />
+    <img class="content__img" src="img/6.jpg" alt="Some image" />
+    <img class="content__img" src="img/7.jpg" alt="Some image" />
+    <img class="content__img" src="img/8.jpg" alt="Some image" />
+    <img class="content__img" src="img/9.jpg" alt="Some image" />
+    </div><!--/content-->
+  <body class="demo-3 loading">
+    <main>
+      <div class="message">Some message for mobile (if needed).</div>
+      <div class="frame">
+        <h1 class="frame__title">PUDRA1444</h1>
+        <div class="frame__links">
+          <a href="https://www.facebook.com/pudra1444/">Facebook</a>
+        </div>
+      </div>
+      <div class="content">
+        <div class="fold-content" id="base-content">
+           
+          <p class="content__type">
+            <span class="content__type-special">PUDRA</span>
+          </p>
+          <img class="story__img" src="img/4.jpg" alt="Some image" />
+          <p class="content__type">
+            But it seems that the more you try to fit in, the more you feel like
+            an outsider, watching the “normal people” as they go about their
+            automatic existences. For every time you say club passwords like
+            “Have a nice day” and “Weather’s awful today, eh?”, you yearn inside
+            to say forbidden things like “Tell me something that makes you cry”
+            or “What do you think deja vu is for?”. Face it, you even want to
+            talk to that girl in the elevator.
+          </p>
+          <img class="story__img" src="img/1.jpg" alt="Some image" />
+          <p class="content__type">
+            But what if that girl in the elevator (and the balding man who walks
+            past your cubicle at work) are thinking the same thing? Who knows
+            what you might learn from taking a chance on conversation with a
+            stranger? Everyone carries a piece of the puzzle. Nobody comes into
+            your life by mere coincidence. Trust your instincts. Do the
+            unexpected. Find the others…
+          </p>
+          <img class="story__img" src="img/2.jpg" alt="Some image" />
+          <p class="content__type">
+            Timothy Francis Leary <br />(October 22, 1920 – May 31, 1996)
+          </p>
+        </div>
+        <div class="screen" id="fold-wrapper"></div>
+        <button class="btn-debug" id="btn-debug">See Planes</button>
+      </div>
+    </main>
+    <script src="./js/imagesloaded.pkgd.min.js"></script>
+    <script src="./js/split.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/images.js"></script></body>
+  </body>
+</html>
