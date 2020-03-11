@@ -1,4 +1,16 @@
 (function() {
+  // Helper functions
+  const MathUtils = {
+    lineEq: (y2, y1, x2, x1, currentVal) => {
+      // y = mx + b
+      var m = (y2 - y1) / (x2 - x1),
+        b = y1 - m * x1;
+      return m * currentVal + b;
+    },
+    lerp: (a, b, n) => (1 - n) * a + n * b,
+    getRandomFloat: (min, max) => (Math.random() * (max - min) + min).toFixed(2)
+  };
+
   function lerp(current, target, speed = 0.1, limit = 0.001) {
     let change = (target - current) * speed;
     if (Math.abs(change) < limit) {
@@ -150,6 +162,86 @@
 
     requestAnimationFrame(tick);
   };
+
+  // Gets the mouse position
+  const getMousePos = e => {
+    let posx = 0;
+    let posy = 0;
+    if (!e) e = window.event;
+    if (e.pageX || e.pageY) {
+      posx = e.pageX;
+      posy = e.pageY;
+    } else if (e.clientX || e.clientY) {
+      posx = e.clientX + body.scrollLeft + document.documentElement.scrollLeft;
+      posy = e.clientY + body.scrollTop + document.documentElement.scrollTop;
+    }
+    return { x: posx, y: posy };
+  };
+
+  // Calculate the viewport size
+  let winsize;
+  const calcWinsize = () =>
+    (winsize = { width: window.innerWidth, height: window.innerHeight });
+  calcWinsize();
+  window.addEventListener("resize", calcWinsize);
+
+  // Track the mouse position
+  let mousepos = { x: winsize.width / 2, y: winsize.height / 2 };
+  window.addEventListener("mousemove", ev => (mousepos = getMousePos(ev)));
+
+  // Custom cursor
+  class Cursor {
+    constructor(el) {
+      this.DOM = { el: el };
+      this.DOM.circle = this.DOM.el.querySelector(".cursor__inner--circle");
+      this.bounds = this.DOM.circle.getBoundingClientRect();
+
+      this.renderedStyles = {
+        tx: { previous: 0, current: 0, amt: 0.15 },
+        ty: { previous: 0, current: 0, amt: 0.15 },
+        scale: { previous: 1, current: 1, amt: 0.15 }
+      };
+      requestAnimationFrame(() => this.render());
+    }
+    render() {
+      this.renderedStyles["tx"].current = mousepos.x - 13;
+      this.renderedStyles["ty"].current = mousepos.y - 13;
+
+      for (const key in this.renderedStyles) {
+        this.renderedStyles[key].previous = MathUtils.lerp(
+          this.renderedStyles[key].previous,
+          this.renderedStyles[key].current,
+          this.renderedStyles[key].amt
+        );
+      }
+
+      this.DOM.circle.style.transform = `translateX(${this.renderedStyles["tx"].previous}px) translateY(${this.renderedStyles["ty"].previous}px) scale(${this.renderedStyles["scale"].previous})`;
+      requestAnimationFrame(() => this.render());
+    }
+    enter() {
+      this.renderedStyles["scale"].current = 1.9;
+    }
+    leave() {
+      this.renderedStyles["scale"].current = 1;
+    }
+    click() {
+      this.renderedStyles["scale"].previous = 0.4;
+    }
+  }
+
+  // Custom mouse cursor
+  const cursor = new Cursor(document.querySelector(".cursor"));
+
+  /***********************************/
+  /****** Custom cursor related ******/
+
+  // Activate the enter/leave/click methods of the custom cursor when hovering in/out on every <a> and the back to menu ctrl
+  [...document.querySelectorAll("a"), document.querySelector("button")].forEach(
+    link => {
+      link.addEventListener("mouseenter", () => cursor.enter());
+      link.addEventListener("mouseleave", () => cursor.leave());
+    }
+  );
 
   /***********************************/
   /********** Preload stuff **********/

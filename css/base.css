@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "Atlan";
+  font-weight: 800;
+  src: local("Atlan"), url("/fonts/Atlan-Bold.ttf") format("truetype");
+}
+
 *,
 *::after,
 *::before {
@@ -7,8 +13,23 @@
 :root {
   font-size: 15px;
 }
+.noise-intro {
+  opacity: 0.11;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+.noise {
+  opacity: 0.07;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
 
 body {
+  overscroll-behavior: none;
   margin: 0;
   --color-text: #111;
   --color-bg: #fff;
@@ -27,6 +48,17 @@ body {
   width: 100%;
   height: 100vh;
   overflow-x: hidden;
+}
+
+p {
+  cursor: default;
+}
+
+.first_page {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .screen {
@@ -101,6 +133,78 @@ body {
   box-shadow: 1px 0 coral, 0 1px coral;
 }
 
+/* Transitions */
+
+.content--intro {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10001;
+  background-color: transparent;
+  position: absolute;
+}
+
+.content__inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.content--intro {
+  /* Potential: Nida7 */
+  background-image: url(/img/man9.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.content__title {
+  -webkit-text-stroke: 2px var(--color-menu-stroke);
+  text-stroke: 2px var(--color-menu-stroke);
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  color: transparent;
+  letter-spacing: 0.05em;
+  font-size: 3em;
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1;
+}
+
+.content__subtitle {
+  letter-spacing: 0.05em;
+  font-size: 1em;
+  color: var(--color-text);
+  padding: 0.5em 0 0 0;
+  margin: 0;
+}
+
+.enter,
+.explore {
+  margin: 6vh 0 0 0;
+  font-size: 1em;
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--color-text);
+  pointer-events: auto;
+}
+
+.enter:hover,
+.enter:focus {
+  color: var(--color-enter);
+}
+
+.enter span {
+  display: inline-block;
+}
+
 /* Page Loader */
 .js .loading::before,
 .js .loading::after {
@@ -157,7 +261,9 @@ a:focus {
 }
 
 .frame {
-  padding: 3rem 5vw;
+  display: flex;
+  justify-content: space-between;
+  padding: 2.5rem 10vw;
   text-align: center;
   position: relative;
   z-index: 1000;
@@ -166,11 +272,11 @@ a:focus {
 .frame__title {
   font-size: 1rem;
   margin: 0 0 1rem;
-  font-weight: normal;
+  font-family: Atlan;
 }
 
 .frame__links {
-  display: inline;
+  font-family: Atlan;
 }
 
 .frame__links a:not(:last-child),
@@ -228,7 +334,30 @@ a:focus {
   filter: var(--filter-img);
 }
 
+.cursor {
+  display: none;
+}
+
 @media screen and (min-width: 53em) {
+  .cursor {
+    display: block;
+  }
+  .cursor__inner {
+    z-index: 99999;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    mix-blend-mode: difference;
+    border-radius: 50%;
+  }
+
+  .cursor__inner--circle {
+    width: 26px;
+    height: 26px;
+    border: 1px solid red;
+  }
+
   .message {
     display: none;
   }
@@ -261,6 +390,7 @@ a:focus {
 
   .frame__title {
     margin: 0;
+    font-family: Atlan;
   }
 
   .frame__tagline {
@@ -280,6 +410,7 @@ a:focus {
     grid-area: links;
     padding: 0;
     justify-self: end;
+    font-family: Atlan;
   }
 
   .frame a {
