@@ -4,6 +4,10 @@
   src: local("Atlan"), url("/fonts/Atlan-Bold.ttf") format("truetype");
 }
 
+html {
+  overflow-x: hidden;
+}
+
 *,
 *::after,
 *::before {
@@ -29,6 +33,7 @@
 }
 
 body {
+  touch-action: pan-y;
   overscroll-behavior: none;
   margin: 0;
   --color-text: #111;
@@ -48,17 +53,29 @@ body {
   width: 100%;
   height: 100vh;
   overflow-x: hidden;
+  cursor: none;
 }
 
 p {
-  cursor: default;
+  cursor: none;
 }
 
 .first_page {
   height: 100vh;
+  padding-bottom: calc(7.5vh);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@supports (-webkit-touch-callout: none) {
+  .first_page {
+    height: 100vh;
+    padding-bottom: calc(7.5vh + 177px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .screen {
@@ -141,8 +158,9 @@ p {
   right: 0;
   bottom: 0;
   z-index: 10001;
-  background-color: transparent;
-  position: absolute;
+  background-color: var(--color-bg);
+  position: fixed;
+  overscroll-behavior: none;
 }
 
 .content__inner {
@@ -157,28 +175,18 @@ p {
   justify-content: center;
 }
 
-.content--intro {
-  /* Potential: Nida7 */
-  background-image: url(/img/man9.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-}
-
 .content__title {
-  -webkit-text-stroke: 2px var(--color-menu-stroke);
-  text-stroke: 2px var(--color-menu-stroke);
-  -webkit-text-fill-color: transparent;
-  text-fill-color: transparent;
+  font-family: condor-compressed, sans-serif;
   color: transparent;
   letter-spacing: 0.05em;
   font-size: 3em;
-  color: var(--color-text);
+  color: white;
   margin: 0;
   line-height: 1;
 }
 
 .content__subtitle {
+  font-family: Atlan;
   letter-spacing: 0.05em;
   font-size: 1em;
   color: var(--color-text);
@@ -188,9 +196,10 @@ p {
 
 .enter,
 .explore {
+  font-family: Atlan;
   margin: 6vh 0 0 0;
   font-size: 1em;
-  cursor: pointer;
+  cursor: none;
   font-weight: bold;
   color: var(--color-text);
   pointer-events: auto;
@@ -198,7 +207,12 @@ p {
 
 .enter:hover,
 .enter:focus {
-  color: var(--color-enter);
+  color: red;
+}
+
+.enter:active,
+.enter:active {
+  color: red;
 }
 
 .enter span {
@@ -210,7 +224,7 @@ p {
 .js .loading::after {
   content: "";
   position: fixed;
-  z-index: 1000;
+  z-index: 1000000;
 }
 
 .js .loading::before {
@@ -252,21 +266,13 @@ a:focus {
   outline: none;
 }
 
-.message {
-  background: var(--color-text);
-  color: var(--color-bg);
-  padding: 1rem;
-  text-align: center;
-  display: none;
-}
-
 .frame {
   display: flex;
   justify-content: space-between;
   padding: 2.5rem 10vw;
   text-align: center;
   position: relative;
-  z-index: 1000;
+  z-index: 1001;
 }
 
 .frame__title {
@@ -297,12 +303,12 @@ a:focus {
   display: flex;
   flex-direction: column;
   width: 100vw;
-  height: calc(100vh - 13rem);
+  height: calc(100vh);
   position: relative;
   justify-content: flex-start;
   align-items: center;
 }
-
+/* 
 .content {
   height: 300px;
   position: relative;
@@ -310,17 +316,11 @@ a:focus {
   justify-content: center;
   align-items: center;
   isolation: isolate;
-}
+} */
 
 .content_floating_image {
-  font-family: forma-djr-display, sans-serif;
-  font-weight: 700;
-  position: relative;
+  position: absolute;
   z-index: 10000;
-  font-size: 27vw;
-  -webkit-text-stroke: 2px var(--color-title);
-  -webkit-text-fill-color: transparent;
-  color: transparent;
   pointer-events: none;
 }
 
@@ -353,19 +353,35 @@ a:focus {
   }
 
   .cursor__inner--circle {
-    width: 26px;
-    height: 26px;
-    border: 1px solid red;
+    width: 10px;
+    height: 10px;
+    background: white;
+  }
+  .outer-cursor {
+    display: block;
+    z-index: 99999;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    mix-blend-mode: difference;
   }
 
-  .message {
-    display: none;
+  .outer-cursor--circle {
+    width: 30px;
+    height: 30px;
+    border: 1px solid white;
+    border-radius: 50%;
+  }
+
+  a {
+    cursor: none;
   }
 
   .frame {
     position: fixed;
     text-align: left;
-    z-index: 100;
+    z-index: 1001;
     top: 0;
     left: 0;
     display: grid;

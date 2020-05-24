@@ -22,8 +22,7 @@
       targets: DOM.intro,
       duration: 2000,
       easing: "cubicBezier(.8, .02, 0, 1)",
-      translateY: "-240vh",
-      skewY: "30deg"
+      translateY: "-240vh"
     });
 
     // anime({

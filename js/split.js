@@ -197,15 +197,15 @@
       this.bounds = this.DOM.circle.getBoundingClientRect();
 
       this.renderedStyles = {
-        tx: { previous: 0, current: 0, amt: 0.15 },
-        ty: { previous: 0, current: 0, amt: 0.15 },
-        scale: { previous: 1, current: 1, amt: 0.15 }
+        tx: { previous: 0, current: 0, amt: 1 },
+        ty: { previous: 0, current: 0, amt: 1 },
+        scale: { previous: 1, current: 1, amt: 1 }
       };
       requestAnimationFrame(() => this.render());
     }
     render() {
-      this.renderedStyles["tx"].current = mousepos.x - 13;
-      this.renderedStyles["ty"].current = mousepos.y - 13;
+      this.renderedStyles["tx"].current = mousepos.x - 5;
+      this.renderedStyles["ty"].current = mousepos.y - 5;
 
       for (const key in this.renderedStyles) {
         this.renderedStyles[key].previous = MathUtils.lerp(
@@ -219,7 +219,47 @@
       requestAnimationFrame(() => this.render());
     }
     enter() {
-      this.renderedStyles["scale"].current = 1.9;
+      this.renderedStyles["scale"].current = 1.5;
+    }
+    leave() {
+      this.renderedStyles["scale"].current = 1;
+    }
+    click() {
+      this.renderedStyles["scale"].previous = 0.4;
+    }
+  }
+
+  // Custom outer cursor
+  class OuterCursor {
+    constructor(el) {
+      this.DOM = { el: el };
+      this.DOM.outerCircle = this.DOM.el.querySelector(".outer-cursor--circle");
+      this.bounds = this.DOM.outerCircle.getBoundingClientRect();
+
+      this.renderedStyles = {
+        tx: { previous: 0, current: 0, amt: 0.1 },
+        ty: { previous: 0, current: 0, amt: 0.1 },
+        scale: { previous: 1, current: 1, amt: 0.1 }
+      };
+      requestAnimationFrame(() => this.render());
+    }
+    render() {
+      this.renderedStyles["tx"].current = mousepos.x - 15;
+      this.renderedStyles["ty"].current = mousepos.y - 15;
+
+      for (const key in this.renderedStyles) {
+        this.renderedStyles[key].previous = MathUtils.lerp(
+          this.renderedStyles[key].previous,
+          this.renderedStyles[key].current,
+          this.renderedStyles[key].amt
+        );
+      }
+
+      this.DOM.outerCircle.style.transform = `translateX(${this.renderedStyles["tx"].previous}px) translateY(${this.renderedStyles["ty"].previous}px) scale(${this.renderedStyles["scale"].previous})`;
+      requestAnimationFrame(() => this.render());
+    }
+    enter() {
+      this.renderedStyles["scale"].current = 1.5;
     }
     leave() {
       this.renderedStyles["scale"].current = 1;
@@ -231,6 +271,7 @@
 
   // Custom mouse cursor
   const cursor = new Cursor(document.querySelector(".cursor"));
+  const outerCursor = new OuterCursor(document.querySelector(".outer-cursor"));
 
   /***********************************/
   /****** Custom cursor related ******/
@@ -240,6 +281,13 @@
     link => {
       link.addEventListener("mouseenter", () => cursor.enter());
       link.addEventListener("mouseleave", () => cursor.leave());
+    }
+  );
+
+  [...document.querySelectorAll("a"), document.querySelector("button")].forEach(
+    link => {
+      link.addEventListener("mouseenter", () => outerCursor.enter());
+      link.addEventListener("mouseleave", () => outerCursor.leave());
     }
   );
 

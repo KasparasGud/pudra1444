@@ -7,7 +7,7 @@ body {
 
 .content__type {
   font-size: 7vw;
-  margin: 0 auto;
+  margin: 2vh auto;
   text-align: justify;
   font-family: condor-compressed, sans-serif;
   font-weight: 300;
@@ -71,7 +71,7 @@ body {
 /* center fold + both side folds need to add up to 100vh  */
 .fold-before,
 .fold-after {
-  height: 20vh;
+  height: 7.5vh;
 }
 
 .side-left .fold-before-1 {
@@ -111,4 +111,8 @@ body {
   left: 0;
   right: 0;
   bottom: calc(100%);
+}
+
+.spacer {
+  height: 20vh;
 }

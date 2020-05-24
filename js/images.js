@@ -87,7 +87,7 @@
       // zIndex value to apply to the upcoming image
       this.zIndexVal = 1;
       // mouse distance required to show the next image
-      this.threshold = 150;
+      this.threshold = 200;
       // render the images
       requestAnimationFrame(() => this.render());
     }
